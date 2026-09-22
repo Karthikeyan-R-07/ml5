@@ -1,103 +1,89 @@
-# 🏠 Household Energy Consumption Prediction
+# Household Energy Consumption Prediction
 
 ## 📌 Project Overview
 
-This project focuses on predicting household energy consumption using **Machine Learning**. The dataset contains household-related and environmental features that can influence electricity consumption.
+This project predicts **household energy consumption** using Machine Learning and **Polynomial Regression**.
 
-A **Polynomial Regression** model is developed to predict `Energy_Consumption_kWh` based on:
+The model uses three input features:
 
 * Household Size
 * Average Temperature
 * Peak Hours Usage
 
-The project also evaluates the model using standard regression metrics and compares the actual and predicted energy consumption.
+The target variable is:
+
+* Energy Consumption
+
+The project also evaluates the model using MAE, MSE, RMSE, and R-squared metrics and visualizes the actual and predicted energy consumption.
 
 ---
 
-## 🎯 Objective
+## 🎯 Objectives
 
-The main objective of this project is to build a Machine Learning model that can predict household energy consumption based on selected input features.
+The main objectives of this project are:
 
-The project includes:
-
-* Loading and exploring the dataset
-* Checking the structure and characteristics of the data
-* Handling missing values
-* Selecting relevant features
-* Splitting the dataset into training and testing sets
-* Applying Polynomial Feature Transformation
-* Building a Linear Regression model
-* Making predictions
-* Evaluating model performance
-* Comparing actual and predicted values visually
-
----
-
-## 📂 Dataset
-
-The dataset used in this project is:
-
-```text
-household_energy_consumption.csv
-```
-
-### Target Variable
-
-```text
-Energy_Consumption_kWh
-```
-
-### Features Used
-
-| **Feature**              | **Description**                              |
-| ------------------------ | -------------------------------------------- |
-| `Household_Size`         | Number of people in the household            |
-| `Avg_Temperature_C`      | Average temperature in Celsius               |
-| `Peak_Hours_Usage_kWh`   | Energy usage during peak hours               |
-| `Energy_Consumption_kWh` | Total energy consumption and target variable |
+* Load and explore household energy consumption data.
+* Understand the structure and statistical properties of the dataset.
+* Check for missing values.
+* Select important input and target variables.
+* Split the dataset into training and testing sets.
+* Apply Polynomial Features with degree 2.
+* Train a Linear Regression model using the polynomial features.
+* Predict household energy consumption.
+* Compare actual and predicted values.
+* Evaluate the model using regression metrics.
+* Visualize actual vs predicted energy consumption.
 
 ---
 
 ## 🛠️ Technologies Used
 
-* Python
-* NumPy
-* Pandas
-* Matplotlib
-* Seaborn
-* Scikit-learn
-* Google Colab / Jupyter Notebook
+* **Python**
+* **Pandas**
+* **NumPy**
+* **Matplotlib**
+* **Seaborn**
+* **Scikit-learn**
+* **Jupyter Notebook**
 
 ---
 
-## 🤖 Machine Learning Algorithm
+## 📂 Dataset
 
-### Polynomial Regression
+The project uses the following dataset:
 
-Polynomial Regression is used to model the relationship between the input variables and household energy consumption.
-
-The project uses:
-
-```python
-PolynomialFeatures(degree=2)
+```text
+household_energy_consumption - household_energy_consumption.csv
 ```
 
-The polynomial features are then passed to:
+The dataset contains household energy-related information.
 
-```python
-LinearRegression()
-```
+### Features Used
+
+| Feature                | Description                            |
+| ---------------------- | -------------------------------------- |
+| `Household_Size`       | Number/size of people in the household |
+| `Avg_Temperature_C`    | Average temperature in Celsius         |
+| `Peak_Hours_Usage_kWh` | Energy usage during peak hours         |
+
+### Target Variable
+
+| Target                   | Description                         |
+| ------------------------ | ----------------------------------- |
+| `Energy_Consumption_kWh` | Household energy consumption in kWh |
 
 ---
 
-## 🔄 Model Workflow
+## 🔄 Project Workflow
 
 ```text
 Dataset
    ↓
+Data Loading
+   ↓
 Data Exploration
    ↓
-Missing Value Handling
+Missing Value Check
    ↓
 Feature Selection
    ↓
@@ -105,50 +91,103 @@ Train-Test Split
    ↓
 Polynomial Feature Transformation
    ↓
-Linear Regression Model
+Linear Regression
    ↓
 Prediction
    ↓
 Model Evaluation
+   ↓
+Visualization
 ```
 
 ---
 
-## 🔍 Data Preprocessing
-
-The dataset is explored using:
+## 1. Import Libraries
 
 ```python
-head()
-tail()
-shape
-info()
-describe()
-dtypes
-columns
-isnull().sum()
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 ```
 
-### Handling Missing Values
+Scikit-learn is used for splitting the data, creating polynomial features, building the regression model, and evaluating the model.
 
-Missing values are handled using:
+---
+
+## 2. Load the Dataset
+
+The dataset is loaded using Pandas:
 
 ```python
-df = df.dropna()
+df = pd.read_csv(
+    "/content/household_energy_consumption - household_energy_consumption.csv"
+)
+```
+
+The first few records are displayed using:
+
+```python
+df.head()
 ```
 
 ---
 
-## 📊 Feature Selection
+## 3. Explore the Dataset
 
-The following features are used as independent variables:
+The notebook examines the dataset using:
 
 ```python
-X = df[[
-    "Household_Size",
-    "Avg_Temperature_C",
-    "Peak_Hours_Usage_kWh"
-]]
+df.info()
+```
+
+```python
+df.describe()
+```
+
+```python
+df.shape
+```
+
+These functions provide information about:
+
+* Dataset structure
+* Data types
+* Statistical summary
+* Number of rows and columns
+
+---
+
+## 4. Check Missing Values
+
+Missing values are checked using:
+
+```python
+df.isnull().sum()
+```
+
+The notebook also contains:
+
+```python
+df.dropna()
+```
+
+for removing rows containing missing values.
+
+---
+
+## 5. Select Features and Target
+
+The following three variables are selected as input features:
+
+```python
+X = df[
+    [
+        "Household_Size",
+        "Avg_Temperature_C",
+        "Peak_Hours_Usage_kWh"
+    ]
+]
 ```
 
 The target variable is:
@@ -157,14 +196,21 @@ The target variable is:
 y = df["Energy_Consumption_kWh"]
 ```
 
+Therefore:
+
+```text
+X → Input Features
+y → Energy Consumption
+```
+
 ---
 
-## 📚 Train-Test Split
+## 6. Train-Test Split
 
-The dataset is divided into **training and testing data using an 80:20 split**.
+The dataset is divided into training and testing data:
 
 ```python
-train_test_split(
+X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
     test_size=0.2,
@@ -172,111 +218,149 @@ train_test_split(
 )
 ```
 
-* **80%** → Training Data
-* **20%** → Testing Data
+Here:
+
+* **80%** of the data is used for training.
+* **20%** of the data is used for testing.
+* `random_state=42` makes the split reproducible.
 
 ---
 
-## 📈 Model Evaluation
+## 7. Polynomial Feature Transformation
 
-The model is evaluated using the following regression metrics:
+Polynomial features of degree 2 are created:
 
-### 1. Mean Absolute Error (MAE)
+```python
+poly = PolynomialFeatures(degree=2)
 
-Measures the average absolute difference between actual and predicted values.
+X_train_poly = poly.fit_transform(X_train)
+X_test_poly = poly.transform(X_test)
+```
 
-### 2. Mean Squared Error (MSE)
+Polynomial transformation allows the model to capture relationships between the input variables beyond a simple straight-line relationship.
 
-Measures the average squared difference between actual and predicted values.
-
-### 3. Root Mean Squared Error (RMSE)
-
-The square root of MSE, which represents prediction error in the same unit as energy consumption.
-
-### 4. R² Score
-
-Measures how well the model explains the variation in the target variable.
-
-The notebook calculates:
-
-* MAE
-* MSE
-* RMSE
-* R² Score
+The training data is used with `fit_transform()`, while the test data uses only `transform()`.
 
 ---
 
-## 📋 Actual vs Predicted Values
+## 8. Train the Regression Model
 
-The project creates a comparison between the actual and predicted energy consumption values.
+A Linear Regression model is created:
+
+```python
+model = LinearRegression()
+```
+
+The model is trained using the polynomial features:
+
+```python
+model.fit(X_train_poly, y_train)
+```
+
+The target variable remains `y_train`; it is **not** transformed into `y_train_poly`.
+
+---
+
+## 9. Make Predictions
+
+Predictions are generated using the transformed test data:
+
+```python
+y_pred = model.predict(X_test_poly)
+```
+
+The predicted values represent the model's estimated household energy consumption.
+
+---
+
+## 10. Actual vs Predicted Values
+
+The actual and predicted values are combined into a DataFrame:
 
 ```python
 result = pd.DataFrame({
-    "Actual Energy": y_test.values,
-    "Predicted Energy": y_pred
+    "Actual": y_test.values,
+    "Predicted": y_pred
 })
 ```
 
-This helps evaluate how closely the predictions match the actual household energy consumption.
+The first 10 results are displayed:
+
+```python
+print(result.head(10))
+```
+
+This allows the actual energy consumption to be compared with the model's predictions.
+
+---
+
+## 11. Model Evaluation
+
+The notebook evaluates the model using four regression metrics.
+
+### Mean Absolute Error (MAE)
+
+```python
+mae = mean_absolute_error(y_test, y_pred)
+```
+
+MAE measures the average absolute difference between actual and predicted values.
+
+### Mean Squared Error (MSE)
+
+```python
+mse = mean_squared_error(y_test, y_pred)
+```
+
+MSE calculates the average squared difference between actual and predicted values.
+
+### Root Mean Squared Error (RMSE)
+
+```python
+rmse = np.sqrt(mse)
+```
+
+RMSE is the square root of MSE and represents prediction error in the same unit as the target variable.
+
+### R-squared
+
+```python
+r2 = r2_score(y_test, y_pred)
+```
+
+R-squared indicates how well the model explains the variation in the target variable.
+
+The results are displayed using:
+
+```python
+print("\nModel Evaluation")
+print("-----------------")
+print("MAE:", mae)
+print("MSE:", mse)
+print("RMSE:", rmse)
+print("R-squared:", r2)
+```
 
 ---
 
 ## 📊 Visualization
 
-A scatter plot is created to compare:
+The project creates an **Actual vs Predicted Energy Consumption** scatter plot:
 
-* **X-axis:** Actual Energy Consumption
-* **Y-axis:** Predicted Energy Consumption
+```python
+plt.figure(figsize=(10, 6))
 
-The visualization helps understand the relationship between the actual and predicted values.
+plt.scatter(y_test, y_pred)
 
----
+plt.xlabel("Actual Energy Consumption (KWh)")
+plt.ylabel("Predicted Energy Consumption (KWh)")
 
-## 🚀 How to Run the Project
+plt.title("Actual vs Predicted Energy Consumption")
 
-### 1. Clone the Repository
-
-```bash
-git clone <your-repository-link>
+plt.show()
 ```
 
-### 2. Open the Notebook
-
-Open:
-
-```text
-ML_task_4.ipynb
-```
-
-using any of the following:
-
-* Google Colab
-* Jupyter Notebook
-* VS Code
-
-### 3. Add the Dataset
-
-Make sure the following dataset is available:
-
-```text
-household_energy_consumption.csv
-```
-
-### 4. Install Required Libraries
-
-```bash
-pip install numpy pandas matplotlib seaborn scikit-learn
-```
-
-### 5. Run the Notebook
-
-Execute the cells in order to perform:
-
-1. Data preprocessing
-2. Model training
-3. Prediction
-4. Model evaluation
-5. Visualization
+This visualization helps compare the model's predictions with the actual energy consumption values.
 
 ---
 
@@ -285,41 +369,69 @@ Execute the cells in order to perform:
 ```text
 Household-Energy-Consumption/
 │
-├── ML_task_4.ipynb
 ├── household_energy_consumption.csv
+├── Energy_Consumption.ipynb
 └── README.md
 ```
 
 ---
 
-## 💡 Key Learning Outcomes
+## 🚀 How to Run the Project
 
-Through this project, the following Machine Learning concepts were practiced:
+### Step 1: Install Python
 
-* Data loading using Pandas
-* Exploratory Data Analysis
-* Missing value handling
-* Feature selection
-* Train-test splitting
-* Polynomial feature transformation
-* Linear Regression
-* Model prediction
-* Regression evaluation metrics
-* Actual vs. predicted visualization
+Install Python on your system.
+
+### Step 2: Install Required Libraries
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+```
+
+### Step 3: Open Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+
+### Step 4: Open the Notebook
+
+Open the project `.ipynb` file.
+
+### Step 5: Add the Dataset
+
+Place the household energy consumption CSV file in the appropriate directory and update the file path if necessary.
+
+### Step 6: Run the Cells
+
+Run the notebook cells from top to bottom to:
+
+1. Load the dataset
+2. Explore the data
+3. Check missing values
+4. Select features
+5. Split the dataset
+6. Create polynomial features
+7. Train the model
+8. Generate predictions
+9. Evaluate the model
+10. Display the visualization
 
 ---
 
-## 🔮 Future Improvements
+## 📌 Key Machine Learning Concepts
 
-The project can be further improved by:
+This project demonstrates:
 
-* Comparing Polynomial Regression with other regression algorithms
-* Performing more detailed Exploratory Data Analysis
-* Testing different polynomial degrees
-* Applying feature scaling where appropriate
-* Performing hyperparameter tuning
-* Adding more relevant household and environmental features
-* Deploying the model as a simple web application
+* Data preprocessing
+* Exploratory Data Analysis
+* Feature selection
+* Train-test splitting
+* Polynomial feature engineering
+* Linear Regression
+* Prediction
+* Regression evaluation
+* Data visualization
 
 ---
 
@@ -327,4 +439,4 @@ The project can be further improved by:
 
 **Karthikeyan R**
 
-> BCA Student | Aspiring Full Stack Developer & Data Analyst
+BCA Student
